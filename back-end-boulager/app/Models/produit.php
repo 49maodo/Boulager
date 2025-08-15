@@ -5,22 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class categorie extends Model
+class produit extends Model
 {
     use SoftDeletes;
-    protected $table = 'categories';
 
     protected $fillable = [
         'nom',
         'description',
+        'prix',
+        'quantite_stock',
+        'image',
         'actif',
+        'categorie_id',
     ];
 
     protected $casts = [
         'actif' => 'boolean',
     ];
-    public function produits()
+    public function categorie()
     {
-        return $this->hasMany(produit::class);
+        return $this->belongsTo(categorie::class);
     }
 }
