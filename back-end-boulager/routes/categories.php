@@ -11,7 +11,7 @@ Route::prefix('categories')->group(function () {
 
     Route::post('', [categorieController::class, 'store'])
         ->name('categories.store')
-        ->middleware('auth');
+        ->middleware('auth:sanctum');
 
     Route::put('{categorie}', [categorieController::class, 'update'])
         ->name('categories.update')
