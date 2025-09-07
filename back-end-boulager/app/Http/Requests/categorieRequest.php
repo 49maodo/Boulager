@@ -9,7 +9,7 @@ class categorieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => ['required', 'unique:categories,nom','max:255'],
+            'nom' => ['required','max:255' , 'unique:categories,nom,'.$this->categorie?->id],
             'description' => ['required'],
             'actif' => ['nullable', 'boolean'],
         ];

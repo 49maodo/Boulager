@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\produit;
+use App\Models\Produit;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -15,7 +15,7 @@ class produitPolicy
         return true;
     }
 
-    public function view(?User $user, produit $produit): bool
+    public function view(?User $user, Produit $produit): bool
     {
         return true;
     }
@@ -25,22 +25,22 @@ class produitPolicy
         return $user->hasRole('admin') || $user->hasRole('employe');
     }
 
-    public function update(User $user, produit $produit): bool
+    public function update(User $user, Produit $produit): bool
     {
         return $user->hasRole('admin') || $user->hasRole('employe');
     }
 
-    public function delete(User $user, produit $produit): bool
+    public function delete(User $user, Produit $produit): bool
     {
         return $user->hasRole('admin') || $user->hasRole('employe');
     }
 
-    public function restore(User $user, produit $produit): bool
+    public function restore(User $user, Produit $produit): bool
     {
         return $user->hasRole('admin');
     }
 
-    public function forceDelete(User $user, produit $produit): bool
+    public function forceDelete(User $user, Produit $produit): bool
     {
         return $user->hasRole('admin');
     }
