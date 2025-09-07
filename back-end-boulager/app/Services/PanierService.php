@@ -52,7 +52,7 @@ class PanierService
                 $panier[$key] = [
                     'produit_id' => $produit->id,
                     'nom' => $produit->nom,
-                    'prix_unitaire' => $produit->prix,
+                    'prix_unitaire' => $produit->getPrixPromotionAttribute(),
                     'quantite' => $request->quantite,
                     'image' => $produit->url_image,
                     'ajoute_le' => now()
@@ -122,7 +122,7 @@ class PanierService
                     'produit' => [
                         'id' => $produit->id,
                         'nom' => $produit->nom,
-                        'prix' => number_format($produit->prix, 2, '.', ''),
+                        'prix' => number_format($produit->getPrixPromotionAttribute(), 2, '.', ''),
                         'image' => $produit->url_image,
                         'description' => $produit->description ?? '',
                         'quantite_stock' => $produit->quantite_stock,
