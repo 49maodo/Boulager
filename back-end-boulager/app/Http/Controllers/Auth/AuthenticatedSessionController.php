@@ -42,14 +42,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-//        Auth::logout();
-//
-//        $request->session()->invalidate();
-//
-//        $request->session()->regenerateToken();
-//
-//        return response()->noContent();
         $request->user()->currentAccessToken()->delete();
+        session()->forget('panier');
 
         return response()->json(['message' => 'Logout successful']);
     }
