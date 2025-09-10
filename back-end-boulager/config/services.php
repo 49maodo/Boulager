@@ -31,13 +31,6 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // Configuration OpenAI
-    'openai' => [
-        'api_key' => env('OPENAI_API_KEY'),
-        'organization' => env('OPENAI_ORGANIZATION', null),
-        'ai_user_id' => env('AI_USER_ID', 1), // ID de l'utilisateur IA dans votre DB
-    ],
-
     // Configuration Pusher pour WebSocket
     'pusher' => [
         'app_id' => env('PUSHER_APP_ID'),

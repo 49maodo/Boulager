@@ -19,6 +19,5 @@ require __DIR__.'/produit.php';
 require __DIR__.'/panier.php';
 require __DIR__.'/commande.php';
 require __DIR__.'/promotion.php';
-require __DIR__.'/chat.php';
 require __DIR__.'/paiement.php';
 require __DIR__.'/user.php';
