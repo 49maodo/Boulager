@@ -51,12 +51,13 @@ class Commande extends Model
     }
     public function estPaye(): bool
     {
-        return $this->paiements()->where('statut_paiement', 'reussi')->exists();
+//        return $this->paiements()->where('statut_paiement','reussi')->exists();
+        return $this->paiements()->where('statut_paiement', 'reussi')->count() > 0;
     }
     // Méthodes utilitaires pour les statuts
     public function peutEtrePaye()
     {
-        return in_array($this->statut, ['en_attente', 'confirmee']);
+        return in_array($this->statut, ['en_attente', 'confirmee', 'annulee']);
     }
 
     public function marquerCommeConfirmee()
