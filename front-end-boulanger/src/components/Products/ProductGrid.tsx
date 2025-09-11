@@ -62,14 +62,10 @@ export function ProductGrid() {
     data: productsResponse,
     isLoading: isLoadingProducts,
     error: productsError,
-    refetch: refetchProducts,
   } = useGetProductsQuery();
 
-  const {
-    data: categoriesResponse,
-    isLoading: isLoadingCategories,
-    refetch: refetchCategories,
-  } = useGetCategoriesQuery();
+  const { data: categoriesResponse, isLoading: isLoadingCategories } =
+    useGetCategoriesQuery();
 
   const [deleteProduct] = useDeleteProductMutation();
   const [deleteCategory] = useDeleteCategoryMutation();
@@ -114,7 +110,6 @@ export function ProductGrid() {
     try {
       await deleteProduct(productId).unwrap();
       toast.success(`${productName} supprimé avec succès !`);
-      refetchProducts();
     } catch (error) {
       console.error("Failed to delete product:", error);
       toast.error("Erreur lors de la suppression du produit");
@@ -128,7 +123,6 @@ export function ProductGrid() {
     try {
       await deleteCategory(categoryId).unwrap();
       toast.success(`Catégorie ${categoryName} supprimée avec succès !`);
-      refetchCategories();
     } catch (error) {
       console.error("Failed to delete category:", error);
       toast.error("Erreur lors de la suppression de la catégorie");
@@ -449,7 +443,6 @@ export function ProductGrid() {
         }}
         product={editingProduct}
         onSuccess={() => {
-          refetchProducts();
           setEditingProduct(null);
         }}
       />
@@ -463,7 +456,6 @@ export function ProductGrid() {
         }}
         category={editingCategory}
         onSuccess={() => {
-          refetchCategories();
           setEditingCategory(null);
         }}
       />
