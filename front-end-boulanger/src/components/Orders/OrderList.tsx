@@ -141,7 +141,7 @@ export function OrderList() {
       }).unwrap();
       toast.success("Statut mis à jour avec succès !");
       setSelectedOrder(null);
-      refetch();
+      // refetch();
     } catch (error) {
       console.error("Failed to update order status:", error);
       toast.error("Erreur lors de la mise à jour du statut");
@@ -524,7 +524,7 @@ export function OrderList() {
           order={paymentOrder}
           onPaymentSuccess={() => {
             setPaymentOrder(null);
-            refetch();
+            // refetch();
           }}
         />
       )}
