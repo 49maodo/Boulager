@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PromotionRequest;
+use App\Http\Requests\UpdatePromotionRequest;
 use App\Http\Resources\PromotionResource;
 use App\Models\Promotion;
 
@@ -51,7 +52,7 @@ class PromotionController extends Controller
 //
 //        return new PromotionResource($promotion);
 //    }
-    public function update(PromotionRequest $request, Promotion $promotion)
+    public function update(UpdatePromotionRequest $request, Promotion $promotion)
     {
         $this->authorize('update', $promotion);
 

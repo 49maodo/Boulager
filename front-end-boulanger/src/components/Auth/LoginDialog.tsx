@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, ShoppingBag } from 'lucide-react';
-import { useLoginMutation } from '@/store/api/authApi';
-import { useAppDispatch } from '@/hooks/redux';
-import { setCredentials } from '@/store/slices/authSlice';
-import { User } from '@/types/api';
+} from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, ShoppingBag } from "lucide-react";
+import { useLoginMutation } from "@/store/api/authApi";
+import { useAppDispatch } from "@/hooks/redux";
+import { setCredentials } from "@/store/slices/authSlice";
+import { User } from "@/types/api";
+import { useGetCartQuery } from "@/store/api/cartApi.ts";
 
 interface LoginDialogProps {
   open: boolean;
@@ -22,31 +23,39 @@ interface LoginDialogProps {
   onRegisterClick: () => void;
 }
 
-export function LoginDialog({ open, onOpenChange, onRegisterClick }: LoginDialogProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export function LoginDialog({
+  open,
+  onOpenChange,
+  onRegisterClick,
+}: LoginDialogProps) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [login, { isLoading, error }] = useLoginMutation();
   const dispatch = useAppDispatch();
+  const { refetch } = useGetCartQuery();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const result = await login({ email, password }).unwrap();
-      
+
       // Parse user data from string response
       const userData = result.user as unknown as User;
-      
-      dispatch(setCredentials({
-        user: userData,
-        token: result.token
-      }));
-      
+
+      dispatch(
+        setCredentials({
+          user: userData,
+          token: result.token,
+        }),
+      );
+
       onOpenChange(false);
-      setEmail('');
-      setPassword('');
+      setEmail("");
+      setPassword("");
+      await refetch(); // Refetch cart data after login
     } catch (err) {
-      console.error('Login failed:', err);
+      console.error("Login failed:", err);
     }
   };
 
@@ -74,10 +83,9 @@ export function LoginDialog({ open, onOpenChange, onRegisterClick }: LoginDialog
           {error && (
             <Alert variant="destructive">
               <AlertDescription>
-                {'data' in error && error.data ? 
-                  (error.data as any).message || 'Erreur de connexion' :
-                  'Erreur de connexion'
-                }
+                {"data" in error && error.data
+                  ? (error.data as any).message || "Erreur de connexion"
+                  : "Erreur de connexion"}
               </AlertDescription>
             </Alert>
           )}
@@ -112,9 +120,9 @@ export function LoginDialog({ open, onOpenChange, onRegisterClick }: LoginDialog
           </Button>
 
           <div className="text-center">
-            <Button 
-              type="button" 
-              variant="link" 
+            <Button
+              type="button"
+              variant="link"
               onClick={switchToRegister}
               className="text-sm"
             >

@@ -46,13 +46,12 @@
   ```
 11. Run the application:
 ```bash
+  php artisan queue:work
+```
+```bash
   php artisan serve
 ```
 
-# Admin account
-Access the admin panel:
-```bash
-  http://localhost:8000/admin
 ```
 - Email: admin@gmail.com
 - Password: admin123

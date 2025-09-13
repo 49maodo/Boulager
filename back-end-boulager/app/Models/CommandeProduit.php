@@ -25,6 +25,6 @@ class CommandeProduit extends Model
 
     public function produit(): BelongsTo
     {
-        return $this->belongsTo(Produit::class);
+        return $this->belongsTo(Produit::class, 'produit_id');
     }
 }
