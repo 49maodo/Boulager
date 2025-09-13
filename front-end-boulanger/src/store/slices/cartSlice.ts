@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItem } from "@/types/api";
 import { cartApi } from "@/store/api/cartApi";
+import { logout } from "@/store/slices/authSlice.ts";
 
 interface CartState {
   items: CartItem[];
@@ -43,6 +44,7 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     // Écouter les réponses de l'API pour synchroniser le state local
     builder
+      .addCase(logout, () => initialState)
       .addMatcher(cartApi.endpoints.getCart.matchFulfilled, (state, action) => {
         const cartItems = action.payload.data || [];
         state.items = cartItems;
