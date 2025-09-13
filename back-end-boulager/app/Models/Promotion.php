@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Observers\PromotionObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy([PromotionObserver::class])]
 class Promotion extends Model
 {
     protected $fillable = [
@@ -20,6 +23,7 @@ class Promotion extends Model
         'date_debut' => 'date',
         'date_fin' => 'date',
     ];
+
     public function produits()
     {
         return $this->belongsToMany(Produit::class, 'produits_promotions')

@@ -6,6 +6,7 @@ use App\Http\Resources\CommandeResource;
 use App\Models\Commande;
 use App\Models\CommandeProduit;
 use App\Models\Produit;
+use App\Notifications\CreateCommandeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,8 @@ class CommandeService
 
             // 8. Retourner la commande avec ses relations
             $commande->load(['client', 'commandeProduits']);
+
+            $commande->client->notify(new CreateCommandeNotification($commande));
 
             return [
                 'success' => true,
@@ -160,9 +163,6 @@ class CommandeService
 
         $commande = Commande::findOrFail($commandeId);
         $commande->update(['statut' => $nouveauStatut]);
-
-        // Logique supplémentaire selon le statut
-        $this->gererChangementStatut($commande, $nouveauStatut);
 
         return new CommandeResource($commande->load(['client', 'commandeProduits.produit']));
     }
@@ -346,25 +346,6 @@ class CommandeService
     private function viderPanier()
     {
         session()->forget('panier');
-    }
-
-    /**
-     * Gérer les changements de statut
-     */
-    private function gererChangementStatut($commande, $nouveauStatut)
-    {
-        switch ($nouveauStatut) {
-            case 'confirmee':
-                // Logique de confirmation (email, notification, etc.)
-                break;
-            case 'livree':
-                // Finaliser la facture
-
-                break;
-            case 'annulee':
-                // Logique d'annulation déjà gérée dans annulerCommande()
-                break;
-        }
     }
 
     private function appliquerPromotions(Produit $produit, int $quantite)
